@@ -25,7 +25,7 @@ env:
   GKE_ZONE: us-central1   # TODO: update to cluster zone
   DEPLOYMENT_NAME: kuard # TODO: update to deployment name
   REPOSITORY: goserver # TODO: update to Artifact Registry docker repository
-  IMAGE: guard
+  IMAGE: kuard
 
 jobs:
   setup-build-publish-deploy:
