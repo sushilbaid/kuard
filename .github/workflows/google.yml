@@ -20,11 +20,11 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GAR_LOCATION: us-central1 # TODO: update region of the Artifact Registry
-  GKE_CLUSTER: c1    # TODO: update to cluster name
-  GKE_ZONE: us-central1   # TODO: update to cluster zone
-  DEPLOYMENT_NAME: kuard # TODO: update to deployment name
-  REPOSITORY: goserver # TODO: update to Artifact Registry docker repository
+  GAR_LOCATION: us-central1 # region of the Artifact Registry
+  GKE_CLUSTER: c1    # cluster name
+  GKE_ZONE: us-central1   # cluster zone
+  DEPLOYMENT_NAME: kuard # deployment name
+  REPOSITORY: goserver # Artifact Registry docker repository
   IMAGE: kuard
 
 jobs:
