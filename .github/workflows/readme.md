@@ -46,6 +46,7 @@ github action is based on the template to build, publish and deploy to GKE. Depl
 Few changes to note:
 1. add `pull_request` trigger to test. it can be later removed once the action is well tested.
 2. add `GKE_PROJECT` in repository settings as secret as [described in docs][2]
+3. add `GKE_PROJECT_NUMBER` in repository settings as secret.
 
 
 [1]: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect
