@@ -78,4 +78,8 @@ jobs:
     - name: Publish
       run: |-
         docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:green"
- 
+    
+    - name: Deploy
+      run: |-
+        kubectl kustomize deploy | kubectl apply -f -
+        kubectl rollout status deployment/kuard

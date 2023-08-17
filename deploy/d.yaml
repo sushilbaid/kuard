@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+  labels:
+    app: kuard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuard
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+      - name: kuard
+        image: us-central1-docker.pkg.dev/civil-orb-388902/goserver/kuard:blue
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
