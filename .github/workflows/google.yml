@@ -84,6 +84,7 @@ jobs:
       run: |-
         curl -LO "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
         tar zxf "kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
-        kustomize edit set image kuard=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/goserver/$IMAGE:green
-        kubectl kustomize deploy | kubectl apply -f -
+        cd deploy
+        ../kustomize edit set image kuard=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/goserver/$IMAGE:green
+        kubectl kustomize . | kubectl apply -f -
         kubectl rollout status deployment/kuard
