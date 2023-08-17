@@ -26,6 +26,7 @@ env:
   DEPLOYMENT_NAME: kuard # deployment name
   REPOSITORY: goserver # Artifact Registry docker repository
   IMAGE: kuard
+  KUSTOMIZE_VERSION: 4.5.7
 
 jobs:
   setup-build-publish-deploy:
@@ -81,5 +82,8 @@ jobs:
     
     - name: Deploy
       run: |-
+        curl -LO "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+        tar zxf "kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+        kustomize edit set image kuard=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/goserver/$IMAGE:green
         kubectl kustomize deploy | kubectl apply -f -
         kubectl rollout status deployment/kuard
