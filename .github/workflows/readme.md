@@ -1,18 +1,17 @@
 ## github action to build an image and publish to google artifact repository 
 
 ### authentication with google cloud
-exchanging github token for google cloud oauth access token is key to publishing image to google artifict repository and there after deploy to GKE.
+Authenticating with google cloud and exchanging github token for google cloud oauth access token is done as part of this github action.
 
 At high level, it means:
-1. A service account is created in google cloud (gc) and its access token is returned by the github action.
-1. The service account is assigned expected roles by adding role bindings. e.g. roles/artifactregistry.writer to publish to artifact repository
+1. A service account is created in google cloud (gc). It is assigned required roles. e.g. roles/artifactregistry.writer to publish to artifact repository.
 1. Provide mapping of attributes in the github token to gc access token. these mappings are added to gc using workload pool identity pool and provider. 
-1. workload identity based principal set is assigned role ('roles/workloadIdentityUser') to allow it to impersonate <serviceAccount> created in steps earlier.
+1. workload identity based principal set (github identity) is assigned role ('roles/workloadIdentityUser'), to allow it to impersonate <serviceAccount> created in steps earlier.
 
 Detailed steps are provided at [setting up workload identity federation](https://github.com/google-github-actions/auth#setting-up-workload-identity-federation)
 
-steps as example gcloud commands:
-steps will need to be adapted to ur environment (google project name, number, service account name, repository owner) 
+steps are given along with example gcloud commands* below:
+*commands will need to be adapted to ur environment (google project name, number, service account name, repository owner). 
 
 1. set env variables. 
    
@@ -25,8 +24,8 @@ export O="<repository_owner>"
 
 2. create service account. assign relevant roles.
 ```bash
-gcloud iam service-accounts gkeops
-gcloud projects add-iam-policy-binding --member="serviceAccount:$A" --role="roles/artifactregistry.writer" $P
+gcloud iam service-accounts create gkeops
+gcloud projects add-iam-policy-binding $P --member="serviceAccount:$A" --role="roles/artifactregistry.writer" 
 ```
 
 3. create workload identity pool and provider 
@@ -47,6 +46,7 @@ Few changes to note:
 1. add `pull_request` trigger to test. it can be later removed once the action is well tested.
 2. add `GKE_PROJECT` in repository settings as secret as [described in docs][2]
 3. add `GKE_PROJECT_NUMBER` in repository settings as secret.
+4. arguments for the google auth action namely workload identity provider and service account are updated.
 
 
 [1]: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect
