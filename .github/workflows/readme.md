@@ -25,7 +25,9 @@ export O="<repository_owner>"
 2. create service account. assign relevant roles.
 ```bash
 gcloud iam service-accounts create gkeops
+gcloud services enable iam.googleapis.com # enable iam api for the project
 gcloud projects add-iam-policy-binding $P --member="serviceAccount:$A" --role="roles/artifactregistry.writer" 
+gcloud projects add-iam-policy-binding $P --member="serviceAccount:$A" --role="roles/container.admin" 
 ```
 
 3. create workload identity pool and provider 
